@@ -1,3 +1,4 @@
+from httpcore import stream
 import snowflake.connector
 import requests
 import pandas as pd
@@ -71,3 +72,10 @@ add_my_fruit = streamlit.text_input(
 if streamlit.button('Add a Fruit to the List'):
     my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
     streamlit.text(insert_row_snowflake(add_my_fruit))
+
+streamlit.header('View our Fruit List - Add Your Favorites!')
+if streamlit.button('Get Fruit List'):
+    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+    my_data_rows = get_fruit_load_list()
+    my_cnx.close()
+    streamlit.dataframe(my_data_rows)
